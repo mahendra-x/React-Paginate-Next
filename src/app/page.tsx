@@ -1,12 +1,10 @@
 "use client";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default function Home() {
   const nextBtnHandler = () => {
     // alert("hi");
-    // revalidatePath('/home') // Update cached posts
     redirect(`/page`); // Navigate to the new post page
   };
   return (
