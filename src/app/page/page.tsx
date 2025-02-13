@@ -3,8 +3,10 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import Pagination from "../Components/Pagination";
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SIZE, productList } from "../constants";
 import { ProductCards } from "../Components/ProductCard";
+import { ProductShimmerCard } from "../Components/ProductCardShimmer";
+import { ShimmerCard } from "../Components/ShimmerCard";
 
 interface Product {
   id: number;
@@ -60,12 +62,34 @@ export default function Home() {
   const lastPageReached = currentPage === noOfPages - 1;
 
   return !products.length ? (
-    <div className="flex items-center justify-center h-screen font-bold text-slate-600 text-4xl">
-      Loading...
+    <div className="App">
+      <button onClick={backToHomeHandler} className="text-2xl p-5">
+        ⬅️ back to home page
+      </button>
+      <h1 className="flex justify-center font-bold from-neutral-950 text-4xl">
+        Pagination
+      </h1>
+      <Pagination
+        initialPageReached={initialPageReached}
+        goToNextPage={goToNextPage}
+        goToPreviousPage={goToPreviousPage}
+        noofPages={20}
+        handlePageNumber={handlePageNumber}
+        lastPageReached={lastPageReached}
+        currentPage={currentPage}
+      />
+
+      <div className="product-container">
+        {productList.map((product) => (
+          <ShimmerCard key={product.productId} />
+        ))}
+      </div>
     </div>
   ) : (
     <div className="App">
-      <button onClick={backToHomeHandler} className="text-2xl p-5">⬅️ back to home page</button>
+      <button onClick={backToHomeHandler} className="text-2xl p-5">
+        ⬅️ back to home page
+      </button>
       <h1 className="flex justify-center font-bold from-neutral-950 text-4xl">
         Pagination
       </h1>
