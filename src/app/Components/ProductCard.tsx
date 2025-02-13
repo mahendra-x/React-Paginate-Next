@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface ProductCardsProps {
   productId: string;
@@ -8,8 +8,7 @@ interface ProductCardsProps {
 }
 
 export const ProductCards: React.FC<ProductCardsProps> = ({ productId, title, imgUrl }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  console.log('imgUrl', imgUrl)
+  const isLoading = true;
 
   return (
     <div className="product-card" key={productId}>
@@ -19,7 +18,6 @@ export const ProductCards: React.FC<ProductCardsProps> = ({ productId, title, im
           alt={title}
           className={`product-img`}
           loading="lazy"
-          // onLoad={() => setIsLoading(false)}
           width={200}
           height={200}
         />}

@@ -5,7 +5,6 @@ import "./styles.css";
 import Pagination from "../Components/Pagination";
 import { PAGE_SIZE, productList } from "../constants";
 import { ProductCards } from "../Components/ProductCard";
-import { ProductShimmerCard } from "../Components/ProductCardShimmer";
 import { ShimmerCard } from "../Components/ShimmerCard";
 
 interface Product {
