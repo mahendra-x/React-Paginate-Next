@@ -24,7 +24,7 @@ export default function AutoSearchBar() {
       ...prev,
       [input]: results.recipes,
     }));
-  },[])
+  },[cache,input])
 
   useEffect(() => {
     // if (input) {
