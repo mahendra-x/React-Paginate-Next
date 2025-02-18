@@ -3,45 +3,49 @@ import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 import { redirect } from "next/navigation";
 
+interface Recipe {
+  id: number;
+  name: string;
+}
+
 export default function AutoSearchBar() {
-  const [input, setInput] = useState("");
-  const [results, setResults] = useState([]);
-  const [showresults, setShowResults] = useState(false);
-  const [cache, setCache] = useState({});
+  const [input, setInput] = useState<string>("");
+  const [results, setResults] = useState<Recipe[]>([]);
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const [cache, setCache] = useState<Record<string, Recipe[]>>({});
 
   const fetchData = useCallback(async () => {
     if (cache[input]) {
-      console.log("CACHE RETURED VALUE", input);
+      console.log("CACHE RETURNED VALUE", input);
       setResults(cache[input]);
       return;
     }
-    // console.log("API CALL", input);
-    const data = await fetch("https://dummyjson.com/recipes/search?q=" + input);
-    const results = await data.json();
-    // console.log("first", results);
-    setResults(results.recipes);
-    setCache((prev) => ({
-      ...prev,
-      [input]: results.recipes,
-    }));
-  },[cache,input])
+
+    try {
+      const response = await fetch(`https://dummyjson.com/recipes/search?q=${input}`);
+      const data = await response.json();
+      
+      if (data.recipes) {
+        setResults(data.recipes);
+        setCache((prev) => ({
+          ...prev,
+          [input]: data.recipes,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [cache, input]);
 
   useEffect(() => {
-    // if (input) {
-    //   console.log("input", input);
-    // }
     const timer = setTimeout(fetchData, 500);
-    // fetchData();
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [input,fetchData]);
+    return () => clearTimeout(timer);
+  }, [input, fetchData]);
 
   const backToHomeHandler = () => {
     redirect("/");
   };
 
-  //   console.log("cache", cache);
   return (
     <>
       <button onClick={backToHomeHandler} className="text-2xl p-5 text-left">
@@ -51,7 +55,7 @@ export default function AutoSearchBar() {
         <h1 className="font-bold text-2xl">AutoComplete Search Bar</h1>
         <div>
           <input
-            type={"text"}
+            type="text"
             className="search-input border border-cyan-500"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -60,9 +64,9 @@ export default function AutoSearchBar() {
             placeholder="Click here for Search"
           />
 
-          {showresults && (
+          {showResults && (
             <div className="result-container">
-              {results.map((item) => (
+              {results.map((item: Recipe) => (
                 <span key={item.id} className="result">
                   {item.name}
                 </span>
