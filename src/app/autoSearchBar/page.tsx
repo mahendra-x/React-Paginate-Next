@@ -62,7 +62,7 @@ export default function AutoSearchBar() {
 
           {showresults && (
             <div className="result-container">
-              {results.map((item, index) => (
+              {results.map((item) => (
                 <span key={item.id} className="result">
                   {item.name}
                 </span>
