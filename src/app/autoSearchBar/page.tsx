@@ -22,9 +22,11 @@ export default function AutoSearchBar() {
     }
 
     try {
-      const response = await fetch(`https://dummyjson.com/recipes/search?q=${input}`);
+      const response = await fetch(
+        `https://dummyjson.com/recipes/search?q=${input}`
+      );
       const data = await response.json();
-      
+
       if (data.recipes) {
         setResults(data.recipes);
         setCache((prev) => ({
@@ -64,13 +66,26 @@ export default function AutoSearchBar() {
             placeholder="Click here for Search"
           />
 
-          {showResults && (
+          {/* {showResults && (
             <div className="result-container">
               {results.map((item: Recipe) => (
                 <span key={item.id} className="result">
                   {item.name}
                 </span>
               ))}
+            </div>
+          )} */}
+          {showResults && (
+            <div className="result-container">
+              {results.length > 0
+                ? results.map((item: Recipe) => (
+                    <span key={item.id} className="result">
+                      {item.name}
+                    </span>
+                  ))
+                : input.trim() && (
+                    <span className="result text-gray-500">No data found</span>
+                  )}
             </div>
           )}
         </div>
