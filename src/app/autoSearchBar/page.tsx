@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 import { redirect } from "next/navigation";
 
@@ -9,7 +9,7 @@ export default function AutoSearchBar() {
   const [showresults, setShowResults] = useState(false);
   const [cache, setCache] = useState({});
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (cache[input]) {
       console.log("CACHE RETURED VALUE", input);
       setResults(cache[input]);
@@ -24,18 +24,18 @@ export default function AutoSearchBar() {
       ...prev,
       [input]: results.recipes,
     }));
-  };
+  },[])
 
   useEffect(() => {
-    if (input) {
-      console.log("input", input);
-    }
+    // if (input) {
+    //   console.log("input", input);
+    // }
     const timer = setTimeout(fetchData, 500);
     // fetchData();
     return () => {
       clearTimeout(timer);
     };
-  }, [input]);
+  }, [input,fetchData]);
 
   const backToHomeHandler = () => {
     redirect("/");

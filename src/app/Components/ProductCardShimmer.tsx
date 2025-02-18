@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface ProductShimmerCardProps {
@@ -19,7 +20,7 @@ const ProductShimmerCard: React.FC<ProductShimmerCardProps> = ({ productId, imgU
     <div className="product-card" key={productId}>
       <div className="image-wrapper">
         {isImageLoading && <div className="shimmer-image"></div>}
-        <img
+        <Image
           src={imgUrl}
           alt={title}
           className={`product-img ${isImageLoading ? "hidden" : ""}`}
